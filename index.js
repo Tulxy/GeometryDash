@@ -3,9 +3,9 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 // Game constants
-const gravity = 0.75;
+const gravity = 0.8;
 const jumpForce = -21;
-const worldSpeed = 12;
+const worldSpeed = 14;
 let distance = 0;
 
 let gameOver = false;
@@ -56,6 +56,32 @@ const obstacles = [
   { x: 3200, y: ground.y - 120, width: 120, height: 120, type: "spike" },
   { x: 3320, y: ground.y - 120, width: 120, height: 120, type: "spike" },
   { x: 3440, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
+  { x: 4200, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+  { x: 4320, y: ground.y - 120, width: 120, height: 120, type: "block" },
+  { x: 4320, y: ground.y - 240, width: 120, height: 120, type: "spike" },
+  { x: 4440, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
+  { x: 5000, y: ground.y - 120, width: 120, height: 120, type: "block" },
+  { x: 5000, y: ground.y - 240, width: 120, height: 120, type: "spike" },
+
+
+  { x: 5600, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+  { x: 5600, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
+  { x: 6240, y: ground.y - 120, width: 120, height: 120, type: "block" },
+  { x: 6240, y: ground.y - 240, width: 120, height: 120, type: "spike" },
+  { x: 6360, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
+  { x: 6240, y: ground.y - 600, width: 120, height: 120, type: "block" },
+  { x: 6240, y: ground.y - 720, width: 120, height: 120, type: "block" },
+  { x: 6240, y: ground.y - 840, width: 120, height: 120, type: "block" },
+  { x: 6240, y: ground.y - 960, width: 120, height: 120, type: "block" },
+
+  { x: 7000, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+  { x: 7120, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+  { x: 7240, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
 ];
 
 // Jump mechanic
@@ -78,7 +104,7 @@ function jump() {
 function update() {
   if (gameOver) return;
 
-  if (distance >= 10000) {
+  if (distance >= 7600) {
     win = true;
   }
 
@@ -154,7 +180,7 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Ground
-  ctx.fillStyle = "#0d7700";
+  ctx.fillStyle = "#000000";
   ctx.fillRect(0, ground.y, canvas.width, canvas.height - ground.y);
 
   // Player
@@ -176,7 +202,7 @@ function draw() {
       ctx.lineTo(obs.x + obs.width / 2, obs.y);
       ctx.lineTo(obs.x + obs.width, obs.y + obs.height);
       ctx.closePath();
-      ctx.fillStyle = "#ff0000";
+      ctx.fillStyle = "#000000";
       ctx.fill();
     } else {
       ctx.fillStyle = "#000000";
