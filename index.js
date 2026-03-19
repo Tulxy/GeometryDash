@@ -2,14 +2,16 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+const cube = document.getElementById("cube");
+
 // Game constants
 const gravity = 0.8;
 const jumpForce = -21;
 const worldSpeed = 14;
-let distance = 0;
 
 let gameOver = false;
 let win = false;
+let distance = 0;
 
 // Player
 const player = {
@@ -82,6 +84,13 @@ const obstacles = [
   { x: 7120, y: ground.y - 120, width: 120, height: 120, type: "spike" },
   { x: 7240, y: ground.y - 120, width: 120, height: 120, type: "spike" },
 
+  { x: 7560, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+  { x: 7680, y: ground.y - 120, width: 120, height: 120, type: "spike" },
+
+  { x: 8340, y: ground.y - 120, width: 120, height: 120, type: "block" },
+  { x: 8460, y: ground.y - 120, width: 120, height: 120, type: "block" },
+  { x: 8340, y: ground.y - 240, width: 120, height: 120, type: "spike" },
+  { x: 8460, y: ground.y - 240, width: 120, height: 120, type: "spike" }
 ];
 
 // Jump mechanic
@@ -102,9 +111,9 @@ function jump() {
 
 
 function update() {
-  if (gameOver) return;
+  if (gameOver || win) return;
 
-  if (distance >= 7600) {
+  if (distance >= 10000) {
     win = true;
   }
 
@@ -144,8 +153,10 @@ function update() {
 
     const hitbox = obs.type === "spike" ? spike_hitbox : block_hitbox;
 
+    // Obstacle collision
     const collidingX = player_hitbox.x + player_hitbox.width > hitbox.x && player_hitbox.x < hitbox.x + hitbox.width;
     const collidingY = player_hitbox.y + player_hitbox.height > hitbox.y && player_hitbox.y < hitbox.y + hitbox.height;
+
 
     if (collidingX && collidingY) {
       if (obs.type === "spike") {
@@ -187,12 +198,14 @@ function draw() {
   ctx.save();
   ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
   ctx.rotate(player.angle);
-  ctx.fillStyle = "#ffdf00";
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 5;
-  ctx.fillRect(-player.width / 2, -player.height / 2, player.width, player.height);
-  ctx.strokeRect(-player.width / 2, -player.height / 2, player.width, player.height);
+  ctx.drawImage(cube, -player.width / 2, -player.height / 2, player.width, player.height);
   ctx.restore();
+
+  // Score
+  ctx.fillStyle = "black";
+  ctx.font = "bold 24px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText(`Score: ${Math.floor(distance / 100)}`, 20, 30);
 
   // Obstacles
   for (const obs of obstacles) {
@@ -218,8 +231,10 @@ function draw() {
     ctx.font = "bold 72px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+    ctx.fillText(`Your score: ${Math.floor(distance / 100)}`, canvas.width / 2, canvas.height / 2 + 100);
   }
 
+  // Win screen
   if (win) {
     ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
