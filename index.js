@@ -9,6 +9,7 @@ const gravity = 0.8;
 const jumpForce = -21;
 const worldSpeed = 14;
 
+let gameStarted = false;
 let gameOver = false;
 let win = false;
 let distance = 0;
@@ -251,4 +252,22 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+function drawMenu() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white"
+  ctx.font = "bold 72px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Click to play", canvas.width / 2, canvas.height / 2);
+}
+
+drawMenu();
+
+canvas.addEventListener("click", () => {
+  if (!gameStarted) {
+    gameStarted = true;
+    gameLoop();
+  }
+});
+
+
